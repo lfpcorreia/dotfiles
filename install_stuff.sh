@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 sudo -v
 
@@ -12,12 +12,17 @@ brew update
 
 tools=(
     fish
-    iterm2
-    kubectl
-    minikube
     coreutils
     findutils
     git
+    golang
+    docker-completion
+    docker-compose-completion
+)
+
+casks=(
+    caffeine
+    quicklook-csv
     qlmarkdown
     qlprettypatch
     qlstephen
@@ -25,11 +30,8 @@ tools=(
     qlcolorcode
     qlimagesize
     qlvideo
-    vscodium
-    golang
-)
-
-casks=(
+    visual-studio-code
+    iterm2
     sourcetree
     spotify
     spectacle
@@ -42,18 +44,32 @@ casks=(
     bitwarden
     telegram
     whatsapp
-)
-
-
-tools2=(
-    docker-completion
-    docker-compose-completion
+    bear
 )
 
 fonts=(
   font-clear-sans
+  font-roboto-condensed
+  font-roboto-mono
+  font-roboto-mono-for-powerline
+  font-roboto-slab
+  font-robotomono-nerd-font
+  font-robotomono-nerd-font-mono
   font-roboto
+  font-hack
+  font-hack-nerd-font
+  font-hack-nerd-font-mono
+  font-fira-code
+  font-fira-mono
+  font-fira-mono-for-powerline
+  font-fira-sans
+  font-firacode-nerd-font
+  font-firacode-nerd-font-mono
+  font-firamono-nerd-font
+  font-firamono-nerd-font-mono
 )
+
+fish_update_completions
 
 
 echo "installing tools..."
@@ -71,15 +87,26 @@ brew cleanup
 
 touch ~/.config/fish/config.fish
 
-mkdir -p ~/Code/golang
-echo "set -gx GOPATH $HOME/Code/golang" >>  ~/.config/fish/config.fish
-echo "set -gx PATH $PATH $HOME/Code/golang/bin" >>  ~/.config/fish/config.fish
+echo "# GOLANG" | tee -a ~/.config/fish/config.fish
+echo "set -gx GOPATH \$HOME/Code/golang" | tee -a ~/.config/fish/config.fish
+echo "set -gx GOROOT /usr/local/opt/go/libexec" | tee -a ~/.config/fish/config.fish
+mkdir -p "$GOPATH" "$GOPATH"/pkg "$GOPATH"/src "$GOPATH"/bin
+echo "set -gx PATH \$PATH \$GOPATH/bin \$GOROOT/bin" | tee -a  ~/.config/fish/config.fish
 
-echo "set -gx MANPATH \$MANPATH /usr/local/opt/findutils/libexec/gnuman" >>  ~/.config/fish/config.fish
-echo "set -gx PATH /usr/local/opt/findutils/libexec/gnubin \$PATH" >>  ~/.config/fish/config.fish
+echo "# *nix utils" | tee -a ~/.config/fish/config.fish
+echo "set -gx PATH /usr/local/opt/findutils/libexec/gnubin \$PATH" | tee -a  ~/.config/fish/config.fish
+echo "set -gx PATH /usr/local/opt/coreutils/libexec/gnubin \$PATH" | tee -a  ~/.config/fish/config.fish
+echo "set -gx MANPATH \$MANPATH /usr/local/opt/findutils/libexec/gnuman" | tee -a  ~/.config/fish/config.fish
+echo "set -gx MANPATH \$MANPATH /usr/local/opt/coreutils/libexec/gnuman" | tee -a ~/.config/fish/config.fish
 
-echo "set -gx PATH /usr/local/opt/coreutils/libexec/gnubin \$PATH" >>  ~/.config/fish/config.fish
-echo "set -gx MANPATH \$MANPATH /usr/local/opt/coreutils/libexec/gnuman" >>  ~/.config/fish/config.fish
+echo "# GitHub" | tee -a ~/.config/fish/config.fish
+echo "set -gx HOMEBREW_GITHUB_API_TOKEN c45f8c6c85c26694738fd4405dd91570ab8fa917" | tee -a ~/.config/fish/config.fish
+
+
+
+curl -L https://get.oh-my.fish | fish
+
+
 
 osascript -e 'tell application "System Preferences" to quit'
 
@@ -89,6 +116,16 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 ###############################################################################
 # General UI/UX                                                               #
 ###############################################################################
+
+# Enable full keyboard access for all controls (e.g. enable Tab in modal dialogs)
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+
+# Use scroll gesture with the Ctrl (^) modifier key to zoom
+defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
+defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
+
+# Follow the keyboard focus while zoomed in
+defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
 
 # Expand save panel by default
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
@@ -112,7 +149,13 @@ defaults write com.apple.LaunchServices LSQuarantine -bool false
 ###############################################################################
 
 # Increase sound quality for Bluetooth headphones/headsets
-defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
+defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Max (editable)" -int 80
+defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 80
+defaults write com.apple.BluetoothAudioAgent "Apple Initial Bitpool (editable)" -int 80
+defaults write com.apple.BluetoothAudioAgent "Apple Initial Bitpool Min (editable)" -int 80
+defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool" -int 80
+defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool Max" -int 80
+defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool Min" -int 80
 
 # Enable full keyboard access for all controls
 # (e.g. enable Tab in modal dialogs)
@@ -124,7 +167,12 @@ defaults write com.visualstudio.code.oss ApplePressAndHoldEnabled -bool false
 
 # Set a blazingly fast keyboard repeat rate
 defaults write NSGlobalDomain KeyRepeat -int 1
-defaults write NSGlobalDomain InitialKeyRepeat -int 13
+defaults write NSGlobalDomain InitialKeyRepeat -int 14
+
+# Trackpad: enable tap to click for this user and for the login screen
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
 ###############################################################################
 # Screen                                                                      #
@@ -133,6 +181,12 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 13
 # Require password immediately after sleep or screen saver begins
 defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
+
+# Save screenshots to the desktop
+defaults write com.apple.screencapture location -string "$HOME/Desktop"
+
+# Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
+defaults write com.apple.screencapture type -string "png"
 
 ###############################################################################
 # Finder                                                                      #
@@ -157,14 +211,14 @@ for app in "cfprefsd" \
 done
 
 
-
-
-echo "Host *" | tee $HOME/.ssh/config
-echo "  ServerAliveInterval 60" | tee $HOME/.ssh/config
-echo "  StrictHostKeyChecking no" | tee $HOME/.ssh/config
-echo "  UseKeychain yes" | tee $HOME/.ssh/config
-
-
+mkdir -p $HOME/.ssh
+touch $HOME/.ssh/config
+echo "Host *" | tee -a $HOME/.ssh/config
+echo "  ServerAliveInterval 60" | tee -a $HOME/.ssh/config
+echo "  StrictHostKeyChecking no" | tee -a $HOME/.ssh/config
+echo "  UseKeychain yes" | tee -a $HOME/.ssh/config
+echo "  AddKeysToAgent yes" | tee -a $HOME/.ssh/config
+echo "  IdentityFile /Users/luiscorreia/.ssh/id_rsa" | tee -a $HOME/.ssh/config
 
 ###############################################################################
 # VSCodium
@@ -319,6 +373,9 @@ defaults write com.apple.Safari ShowStatusBar -bool true
 # General UI/UX                                                               #
 ###############################################################################
 
+# Solve the Mojave bad font rendering in external non high-DPI monitor
+defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
+
 # Set sidebar icon size to medium
 defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 1
 
@@ -391,6 +448,25 @@ defaults write com.apple.ActivityMonitor ShowCategory -int 0
 # Sort Activity Monitor results by CPU usage
 defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage"
 defaults write com.apple.ActivityMonitor SortDirection -int 0
+
+
+###############################################################################
+# SSD Specific Tweaks                                                         #
+###############################################################################
+
+# Disable hibernation (speeds up entering sleep mode)
+# Hibernation saves memory to disk:
+sudo pmset -a hibernatemode 0
+
+# Remove the sleep image file to save disk space
+sudo rm /private/var/vm/sleepimage
+# Create a zero-byte file instead…
+sudo touch /private/var/vm/sleepimage
+# …and make sure it can’t be rewritten
+sudo chflags uchg /private/var/vm/sleepimage
+
+# Disable the sudden motion sensor as it’s not useful for SSDs
+sudo pmset -a sms 0
 
 for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
     "Dock" "Finder" "Mail" "Messages" "Photos" "Safari" "SystemUIServer" \
