@@ -68,8 +68,8 @@ fonts=(
   font-firamono-nerd-font
   font-firamono-nerd-font-mono
 )
+# https://github.com/gabrielelana/awesome-terminal-fonts
 
-fish_update_completions
 
 
 echo "installing tools..."
@@ -82,35 +82,30 @@ echo "installing fonts..."
 brew cask install ${fonts[@]}
 
 
-brew cleanup
+###############################################################################
+# Fish Shell                                                                  #
+###############################################################################
 
-
-touch ~/.config/fish/config.fish
-
-echo "# GOLANG" | tee -a ~/.config/fish/config.fish
-echo "set -gx GOPATH \$HOME/Code/golang" | tee -a ~/.config/fish/config.fish
-echo "set -gx GOROOT /usr/local/opt/go/libexec" | tee -a ~/.config/fish/config.fish
-mkdir -p "$GOPATH" "$GOPATH"/pkg "$GOPATH"/src "$GOPATH"/bin
-echo "set -gx PATH \$PATH \$GOPATH/bin \$GOROOT/bin" | tee -a  ~/.config/fish/config.fish
-
-echo "# *nix utils" | tee -a ~/.config/fish/config.fish
-echo "set -gx PATH /usr/local/opt/findutils/libexec/gnubin \$PATH" | tee -a  ~/.config/fish/config.fish
-echo "set -gx PATH /usr/local/opt/coreutils/libexec/gnubin \$PATH" | tee -a  ~/.config/fish/config.fish
-echo "set -gx MANPATH \$MANPATH /usr/local/opt/findutils/libexec/gnuman" | tee -a  ~/.config/fish/config.fish
-echo "set -gx MANPATH \$MANPATH /usr/local/opt/coreutils/libexec/gnuman" | tee -a ~/.config/fish/config.fish
-
-echo "# GitHub" | tee -a ~/.config/fish/config.fish
-echo "set -gx HOMEBREW_GITHUB_API_TOKEN c45f8c6c85c26694738fd4405dd91570ab8fa917" | tee -a ~/.config/fish/config.fish
-
-
+echo /usr/local/bin/fish | sudo tee -a /etc/shells
+chsh -s /usr/local/bin/fish
 
 curl -L https://get.oh-my.fish | fish
+
+mkdir -p "$HOME"/.config/fish/functions
+cp ./fish/myupdates.fish "$HOME"/.config/fish/functions/
+
+
+
+###############################################################################
+# App Settings                                                                #
+###############################################################################
+
+cp ./vscode/settings.json "$HOME"/Library/Application\ Support/Code/User/
+
 
 
 
 osascript -e 'tell application "System Preferences" to quit'
-
-
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ###############################################################################

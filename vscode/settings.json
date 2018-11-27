@@ -1,0 +1,65 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/CVS": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/_site": true,
+        "**/.sass-cache": true
+    },
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "window.zoomLevel": 0,
+    "workbench.iconTheme": "eq-material-theme-icons",
+    "editor.fontFamily": "'MesloLGMDZ Nerd Font Mono'",
+    "editor.fontLigatures": true,
+    "editor.formatOnSave": true,
+    "editor.minimap.enabled": false,
+    "editor.renderWhitespace": "none",
+    "editor.tabSize": 4,
+    "editor.wordWrap": "off",
+    "files.autoSave": "afterDelay",
+    "terminal.integrated.cursorBlinking": true,
+    "breadcrumbs.enabled": true,
+    "editor.fontSize": 13,
+    "search.smartCase": true,
+    "emmet.showSuggestionsAsSnippets": true,
+    "emmet.triggerExpansionOnTab": true,
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact"
+    },
+    "emmet.preferences": {
+        "bem.elementSeparator": "__",
+        "bem.modifierSeparator": "--"
+    },
+    "workbench.fontAliasing": "auto",
+    "editor.fontWeight": "300",
+    "mssql.connections": [
+        {
+            "server": "localhost",
+            "database": "SQL-DUS",
+            "authenticationType": "SqlLogin",
+            "user": "SA",
+            "password": "",
+            "emptyPasswordInput": false,
+            "savePassword": true,
+            "profileName": "SQL-DUS local"
+        },
+        {
+            "server": "54.93.196.76",
+            "database": "SQL-DUS",
+            "authenticationType": "SqlLogin",
+            "user": "SA",
+            "password": "",
+            "emptyPasswordInput": false,
+            "savePassword": true,
+            "profileName": "SQL-DUS unified-staging"
+        }
+    ],
+    "workbench.sideBar.location": "right",
+    "workbench.editor.highlightModifiedTabs": true,
+}
+// , Fira Code', 'Courier New', monospace"
