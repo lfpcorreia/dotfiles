@@ -10,7 +10,7 @@ set -xU MANPATH $MANPATH /usr/local/opt/findutils/libexec/gnuman
 set -xU MANPATH $MANPATH /usr/local/opt/coreutils/libexec/gnuman
 
 # GitHub
-set -xU HOMEBREW_GITHUB_API_TOKEN c45f8c6c85c26694738fd4405dd91570ab8fa917
+# ADD TOKEN HERE set -xU HOMEBREW_GITHUB_API_TOKEN c45f8c6c85c26694738fd4405dd91570ab8fa917
 set -xU NVM_DIR $HOME/.nvm
 
 # Rust
