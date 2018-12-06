@@ -11,6 +11,7 @@ fi
 brew update
 
 tools=(
+    telnet
     fish
     coreutils
     findutils
