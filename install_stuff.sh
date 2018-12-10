@@ -95,7 +95,7 @@ curl -L https://get.oh-my.fish | fish
 mkdir -p "$HOME"/.config/fish/functions
 cp ./fish/myupdates.fish "$HOME"/.config/fish/functions/
 
-
+cp ./fish/config.fish "$HOME"/.config/fish/config.fish
 
 ###############################################################################
 # App Settings                                                                #
